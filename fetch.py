@@ -1,3 +1,4 @@
+import sys
 import re
 import csv
 from datetime import datetime
@@ -70,6 +71,7 @@ def scan_cat(site, catname, limit=None):
             birth, death, covid = interpret(text)
         except ValueError as e:
             print('Failed to parse {} : {}'.format(a, e))
+            num_failed += 1
             continue
         created = a.oldest_revision.timestamp.date()
         print(title, birth, death, covid, created)
@@ -81,8 +83,9 @@ def scan_cat(site, catname, limit=None):
     return res
 
 if __name__ == "__main__":
+    years = map(int, sys.argv[1:])
     site = pywikibot.Site('en', 'wikipedia')
-    for year in [2020, 2019]:
+    for year in years:
         print("*** {} DEATHS ***".format(year))
         data = scan_cat(site, 'Category:{} deaths'.format(year))
         with open('deaths{}.csv'.format(year), 'w') as f:
