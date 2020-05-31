@@ -1,2 +1,3 @@
-Data retrieval from Wikipedia to estimate COVID-19 death rate for celebrities
-You need pywikibot to run this
+Data retrieval from Wikipedia to estimate COVID-19 death rate for celebrities.
+You need pywikibot to run this.
+Virtualenv requirements are in requirements.txt
