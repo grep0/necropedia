@@ -8,3 +8,4 @@ share
 pywikibot.lwp
 throttle.ctrl
 user-config.py
+pyvenv.cfg
