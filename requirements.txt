@@ -20,7 +20,7 @@ chrome-gnome-shell==0.0.0
 configobj==5.0.6
 CredentialKit==0.7
 credentialkit-client==1
-cryptography==2.8
+cryptography==3.2
 css-parser==1.0.4
 cssselect==1.1.0
 cssutils==1.0.2
