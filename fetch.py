@@ -4,18 +4,22 @@ import csv
 from datetime import datetime
 
 import pywikibot
+import pywikibot.pagegenerators
 import dateutil.parser
 
 # May all the programming gods forgive me for parsing with regexes
 # Extracting date in the formats '13 May 2010' or 'May 13, 2010'
-re_month = re.compile(r'(?:January|February|March|April|May|June|July|August|Septemper|October|November|December)')
+re_month = re.compile(r'(?:January|February|March|April|May|June|July|August|September|October|November|December)')
 re_year = re.compile(r'(?:19|20)[0-9][0-9]')
 re_date = re.compile(r'(?:[1-3]?[0-9]\s{0}|{0}\s[1-3]?[0-9]),?\s{1}'.format(re_month.pattern, re_year.pattern))
+# <ref>...</ref>
+re_ref = re.compile('<ref>.*</ref>')
 # This is typical form within the article body:
 # '''Foo Barsson''' (January 1, 1941 - March 3, 2002)
 # We allow the case when only birth year is known, setting the date to mid-year
-re_birth_death = re.compile(r'({0}|{1})\s?(?:-|–|{{ndash}})\s?({0})'
-        .format(re_date.pattern, re_year.pattern))
+re_birth_death = re.compile(r'({0}|{1})(?:{2})?\s?(?:-|–|{{ndash}}|{{endash}})\s?({0})'
+        .format(re_date.pattern, re_year.pattern, re_ref.pattern))
+
 # Patterns within infobox:
 # {{Birth date|1923|4|5}}
 # {{Birth year|1945}}
@@ -122,7 +126,8 @@ def scan_cat(site, catname, limit=None):
     res = []
     num_failed = 0
     cat = pywikibot.Category(site, catname)
-    for a in cat.articles():
+    gen = pywikibot.pagegenerators.PreloadingGenerator(cat.articles())
+    for a in gen:
         if a.is_categorypage() or not a.exists():
             continue
         title = a.title()
