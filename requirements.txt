@@ -121,7 +121,7 @@ pbr==5.4.3
 pexpect==4.6.0
 pgzero==1.2
 pickleshare==0.7.5
-Pillow==7.0.0
+Pillow==8.3.2
 pluggy==0.13.0
 ply==3.11
 prometheus-client==0.7.1
